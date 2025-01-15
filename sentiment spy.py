@@ -17,7 +17,7 @@ def show_processing_animation():
 def analyze_sentitment(text):
     try:
         global positive_count,neutral_count,negative_count
-        blob = TextBlob("text")
+        blob = TextBlob(text)
         sentiment = blob.sentiment.polarity
         convention_history.append(text)
         if sentiment > 0.75:
@@ -38,6 +38,7 @@ def analyze_sentitment(text):
     except Exception as e:
         return f"\n {Fore.RED} an error occured during sentiment analys: {str(e)}"
 def execute_command(command):
+    global positive_count, negative_count, neutral_count
     if command == "summary":
         return (f"{Fore.CYAN} mission report: \n "
                 f"{Fore.GREEN} positive message detected: {positive_count} \n"
@@ -49,14 +50,14 @@ def execute_command(command):
         return f"{Fore.CYAN} mission reset! all previous data has been cleared"
     elif command == "history":
         return "".join([f"{Fore.CYAN} message {i+1}: {msg}" for i,msg in enumerate (convention_history)])\
-            if "convention_history" else f"no convention history available"
+            if convention_history else f"no convention history available"
     elif command == "help":
-        return {f"{Fore.CYAN} Available commands: \n  "
-                f" - type any sentence to analize its sentiment- "
-                f" - type summary to get a mission report on anailzed sentiments"
-                f" - type reset to clear or mission data and start fresh - "
-                f" - tyoe history to view all preivious messages and analizes - "
-                f" - type exit to conclude your mission and leave the chat"}
+        return (f"{Fore.CYAN} Available commands:\n"
+        f" - Type any sentence to analyze its sentiment.\n"
+        f" - Type 'summary' to get a mission report on analyzed sentiments.\n"
+        f" - Type 'reset' to clear mission data and start fresh.\n"
+        f" - Type 'history' to view all previous messages and analyses.\n"
+        f" - Type 'exit' to conclude your mission and leave the chat.")
     else:
         return f"{Fore.RED} Unkown commande, type help for the list of commands"
 def get_valid_name():
@@ -72,7 +73,7 @@ def start_sentiment_chart():
     user_name = get_valid_name()
     print (f" \n {Fore.CYAN} nice to meet you agent 😀 {user_name}! type your sentence to analize emotions \n type help for options")
     while True:
-        user_input = input(f" \n {Fore.MAGENTA} {Style.BRIGHT} agent {user_name}: {Style.RESET_ALL} ").strip
+        user_input = input(f" \n {Fore.MAGENTA} {Style.BRIGHT} agent {user_name}: {Style.RESET_ALL} ").strip()
         if not user_input:
             print (f"{Fore.RED} please enter a non empty message or type 'help' for available commands")
             print (execute_command(user_input.lower()))
