@@ -17,7 +17,7 @@ def show_processing_animation():
 def analyze_sentitment(text):
     try:
         global positive_count,neutral_count,negative_count
-        blob = TextBlob(text)
+        blob = TextBlob("text")
         sentiment = blob.sentiment.polarity
         convention_history.append(text)
         if sentiment > 0.75:
@@ -70,16 +70,16 @@ def start_sentiment_chart():
     print(f" {Fore.CYAN} {Style.BRIGHT} 😀 welcome to the sentiment spy, this is your personal emotion detection!")
     global user_name
     user_name = get_valid_name()
-    print(f" \n {Fore.CYAN} nice to meet you agent 😀 {user_name}! type your sentence to analize emotions \n type help for options")
+    print (f" \n {Fore.CYAN} nice to meet you agent 😀 {user_name}! type your sentence to analize emotions \n type help for options")
     while True:
         user_input = input(f" \n {Fore.MAGENTA} {Style.BRIGHT} agent {user_name}: {Style.RESET_ALL} ").strip
         if not user_input:
             print (f"{Fore.RED} please enter a non empty message or type 'help' for available commands")
             print (execute_command(user_input.lower()))
-        elif user_input.lower() == "exit":
+        elif user_input == "exit":
             print (f"\n {Fore.BLUE} mission complete exiting sentiment spy farewell agent {user_name}!")
             break
-        elif user_input.lower() in ["summary","reset","history","help"]:
+        elif user_input in ["summary","reset","history","help"]:
             print (execute_command(user_input.lower()))
         else:
             show_processing_animation()
