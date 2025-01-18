@@ -49,7 +49,7 @@ def execute_command(command):
         positive_count = negative_count = neutral_count = 0
         return f"{Fore.CYAN} mission reset! all previous data has been cleared"
     elif command == "history":
-        return "".join([f"{Fore.CYAN} message {i+1}: {msg}" for i,msg in enumerate (convention_history)])\
+        return "".join([f"{Fore.CYAN} message {i+1}: {msg}\n" for i,msg in enumerate (convention_history)])\
             if convention_history else f"no convention history available"
     elif command == "help":
         return (f"{Fore.CYAN} Available commands:\n"
@@ -71,7 +71,7 @@ def start_sentiment_chart():
     print(f" {Fore.CYAN} {Style.BRIGHT} 😀 welcome to the sentiment spy, this is your personal emotion detection!")
     global user_name
     user_name = get_valid_name()
-    print (f" \n {Fore.CYAN} nice to meet you agent 😀 {user_name}! type your sentence to analize emotions \n type help for options")
+    print (f" \n {Fore.CYAN} nice to meet you agent {user_name}! type your sentence to analize emotions \n type help for options")
     while True:
         user_input = input(f" \n {Fore.MAGENTA} {Style.BRIGHT} agent {user_name}: {Style.RESET_ALL} ").strip()
         if not user_input:
