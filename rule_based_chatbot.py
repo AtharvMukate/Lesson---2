@@ -8,7 +8,7 @@ jokes=["why don't programmers like nature? too many bugs", "Why did the computer
 
 def greet_user():
     print(Fore.CYAN+"Hello! I am travelBot🤖 your virtual travel assistant")
-    name = input(Fore.YELLOW+"May I know your name?")
+    name = input(Fore.YELLOW+"May I know your name? ")
     print(Fore.GREEN+f"Nice to meet you {name} !😁 How can I assist you today?") 
     return name
 
@@ -22,8 +22,9 @@ def show_help():
 def process_input(user_input):
     user_input = user_input.strip().lower()
     user_input = re.sub(r'\s+','',user_input)
+    return user_input
 
-def provide_recomendations():
+def provide_recommendations():
     print(Fore.CYAN+"🤖:Are you intrested in beaches, mountains, or cities?")
     prefrence = input(Fore.YELLOW+"You:")
     prefrence = process_input(prefrence)
@@ -36,10 +37,10 @@ def provide_recomendations():
             print(Fore.GREEN+f"🤖: Great have an amazing time in {suggestion}!")
         elif responce == "no":
             print(Fore.RED+"🤖: No worries! lets find another place")
-            provide_recomendations()
+            provide_recommendations()
         else:
             print(Fore.RED+"🤖: I didnt catch that, lets start over")
-            provide_recomendations()
+            provide_recommendations()
     else:
         print(Fore.RED+"🤖: Sorry!, I dont have recomendations for that prefrence")
         show_help()
@@ -54,3 +55,29 @@ def offer_packing_tips():
     print(Fore.GREEN+"-Pack versictile clothing items")
     print(Fore.GREEN+"-Dont forget travel adapters and chargers")
     print(Fore.GREEN+"-Check the weather forecast before packing")
+
+def tell_joke():
+    joke = random.choice(jokes)
+    print (Fore.YELLOW+f"🤖:{joke}")
+
+def chat():
+    name = greet_user()
+    show_help()
+    while True:
+        user_input=input(Fore.YELLOW+f"{name}: ")
+        processed_input=process_input(user_input)
+        if "recommendation" in processed_input or "suggest" in processed_input:
+            provide_recommendations()
+        elif "pack" in processed_input or "packing" in processed_input:
+            offer_packing_tips()
+        elif "joke" in processed_input or "funny" in processed_input:
+            tell_joke()
+        elif "help" in processed_input:
+            show_help()
+        elif "exit" in processed_input or "bye" in processed_input:
+            print(Fore.CYAN+"🤖: Safe travels! goodbye!")
+            break
+        else:
+            print(Fore.RED+"🤖: Im sorry, I didnt quite catch that, could you please rephrase")
+if __name__ == "__main__":
+    chat()
