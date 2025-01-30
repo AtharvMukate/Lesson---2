@@ -20,14 +20,14 @@ def format_symbol(symbol):
 
 def player_choice():
     symbol = ''
-    while symbol not in ['x', 'o']:
+    while symbol not in ['X', 'O']:
         symbol = input("do you want to be X or O?").lower()
         if symbol == "X":
             return ('X', 'O') 
         else:
             return ('O', 'X')
 
-def player_move(board, symbol):
+def player_move(board, symbol, player_name):
     move = -1
     while move not in range(1,10) or not board[move -1].isdigit():
          try:
@@ -44,14 +44,14 @@ def ai_move(board,ai_symbol,player_symbol):
             board_copy = board.copy()
             board_copy[i] = ai_symbol
             if check_win(board_copy,ai_symbol):
-                board[i] = ai_symbol = ai_symbol
+                board[i] = ai_symbol
                 return
     for i in range(9):
         if board[i].isdigit():
             board_copy = board.copy()
             board_copy[i] = player_symbol
             if check_win(board_copy,player_symbol):
-                board[i] = player_symbol = player_symbol
+                board[i] = ai_symbol
                 return
     possible_moves = [i for i in range(9) if board[i].isdigit()]
     move = random.choice(possible_moves)
@@ -66,16 +66,17 @@ def check_win(board, symbol):
 def check_full(board):
     return all(not spot.isdigit() for spot in board)
 def tic_tac_toe():
-    print("welcom to the ultimate game of TIC TAC TOE!")
+    print("welcome to the ultimate game of TIC TAC TOE!")
+    player_name = input(Fore.GREEN + "Please enter your name")
     while True:
         board = ["1", "2", "3", "4", "5", "6", "7", "8", "9" ]
         player_symbol, ai_symbol = player_choice()
-        turn = "player"
+        turn = "Player"
         game_on = True
         while game_on:
             display_board(board)
-            if turn == "player":
-                player_move(board, player_symbol)
+            if turn == "Player":
+                player_move(board, player_symbol,player_name)
                 if check_win(board, player_symbol):
                     display_board(board)
                     print ("congratulations! You have beaten me!")
@@ -99,7 +100,11 @@ def tic_tac_toe():
                         print ("Its a tie!")
                         break
                     else:
-                        turn = "player"
+                        turn = "Player"
         play_again = input("Do you want to play again? (Yes/No) ").lower()
         if play_again != "Yes":
            print ("Thank you for playing!")
+           break
+
+if __name__ == "__main__":
+    tic_tac_toe()
