@@ -1,4 +1,6 @@
 import random
+from colorama import init, Fore, Style
+init(autoreset=True)
 def display_board(board):
     print()
     print(' ' + board[0] + ' | ' + board[1] + ' | ' + board[2])
@@ -7,6 +9,14 @@ def display_board(board):
     print("-----------")
     print(' ' + board[6] + ' | ' + board[7] + ' | ' + board[8])
     print()
+def format_symbol(symbol):
+    if symbol == 'X':
+        return Fore.RED + symbol + Fore.RESET
+    elif symbol == 'O':
+        return Fore.BLUE + symbol + Fore.RESET
+    else:
+        return Fore.YELLOW + symbol + Fore.RESET
+
 
 def player_choice():
     symbol = ''
@@ -24,7 +34,7 @@ def player_move(board, symbol):
             move = int(input("enter your move (1 - 9) :"))
             if move not in range(1,10) or not board[move -1].isdigit():
                 print("invalid move, please try again")
-         except valueError:
+         except ValueError:
             print("please enter a number between 1 and 9")
     board[move -1] = symbol
 
@@ -53,7 +63,8 @@ def check_win(board, symbol):
         if board[cond[0]] == board[cond[1]] == board[cond[2]] == symbol:
             return True
     return False
-
+def check_full(board):
+    return all(not spot.isdigit() for spot in board)
 def tic_tac_toe():
     print("welcom to the ultimate game of TIC TAC TOE!")
     while True:
@@ -75,7 +86,7 @@ def tic_tac_toe():
                         print ("Its a tie!")
                         break
                     else:
-                        turn = "ai"
+                        turn = "AI"
             else:
                 ai_move(board, ai_symbol, player_symbol)
                 if check_win(board, ai_symbol):
@@ -89,6 +100,6 @@ def tic_tac_toe():
                         break
                     else:
                         turn = "player"
-    play_again = input("Do you want to play again? (Yes/No) ").lower()
-    if play_again != "Yes":
-        print ("Thank you for playing!")
+        play_again = input("Do you want to play again? (Yes/No) ").lower()
+        if play_again != "Yes":
+           print ("Thank you for playing!")
